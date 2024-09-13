@@ -24,13 +24,16 @@ let player = {
   attack: 10,
   defense: 5,
   inventory: [],
-  maxInventorySize: 4,
+  maxInventorySize: 20,
   xp: 0,
   xpToLevel: 100,
   skillPoints: 0,
-  level: 1
-  
+  level: 1,
+  luck: 5, // Starting Luck value
+  isAlive: true
 };
+
+
 const rooms = [];
 const items = [];
 const enemies = [];
@@ -346,19 +349,22 @@ function drawMap() {
 }
 
 function drawStats() {
+  const lowHpClass = player.hp < player.maxHp * 0.2 ? 'low-hp' : '';
   const statsContent = `
     <ul class="stats-list">
       <li><strong>Level:</strong> ${player.level}</li>
       <li><strong>Dungeon Level:</strong> ${dungeonLevel}</li>
       <li><strong>XP:</strong> ${player.xp}/${player.xpToLevel}</li>
       <li><strong>Skill Points:</strong> ${player.skillPoints}</li>
-      <li><strong>HP:</strong> ${player.hp}/${player.maxHp}</li>
+      <li class="${lowHpClass}"><strong>HP:</strong> ${player.hp}/${player.maxHp}</li>
       <li><strong>Attack:</strong> ${player.attack}</li>
       <li><strong>Defense:</strong> ${player.defense}</li>
+      <li><strong>Luck:</strong> ${player.luck}</li>
     </ul>
   `;
   document.querySelector('#stats .section-content').innerHTML = statsContent;
 }
+
 
 // Update the player's inventory
 function drawInventory() {
@@ -528,50 +534,71 @@ function attackPlayer(enemy) {
     console.log('Hit sound playback was prevented:', error);
   });
 
-  const minDamage = 2;  // Ensure a minimum damage of 2
-  const rawDamage = enemy.attack - player.defense;
-  const damage = Math.max(rawDamage, minDamage);  // Calculate damage with a minimum threshold
+  // Calculate enemy miss chance based on dungeon level
+  const enemyMissChance = Math.max(5, 20 - dungeonLevel * 2); // Decreases with dungeon level
+  const didMiss = Math.random() * 100 < enemyMissChance;
 
-  player.hp -= damage;
-  messages.push(`${enemy.isBoss ? 'The Boss' : 'An enemy'} hits you for ${damage} damage!`);
+  if (didMiss) {
+    messages.push(`${enemy.isBoss ? 'The Boss' : 'An enemy'} misses you!`);
+  } else {
+    const minDamage = 2;  // Ensure a minimum damage of 2
+    const rawDamage = enemy.attack - player.defense;
+    const damage = Math.max(rawDamage, minDamage);  // Calculate damage with a minimum threshold
 
-  if (player.hp <= 0) {
-    player.hp = 0; // Ensure HP doesn't go negative
-    gameOver();    // Call the gameOver function to trigger the "You Died" modal
+    player.hp -= damage;
+    messages.push(`${enemy.isBoss ? 'The Boss' : 'An enemy'} hits you for ${damage} damage!`);
+
+    if (player.hp <= 0) {
+      player.hp = 0; // Ensure HP doesn't go negative
+      gameOver();    // Call the gameOver function to trigger the "You Died" modal
+    }
   }
 }
 
 
 
-// Player attacks enemy
+
 // Player attacks enemy
 function attackEnemy(enemy) {
   // Play attack sound
   attackSound.play().catch((error) => {
     console.log('Attack sound playback was prevented:', error);
   });
-  const damage = Math.max(0, player.attack - 0); // Enemies have no defense in this example
-  enemy.hp -= damage;
-  messages.push(`You hit ${enemy.isBoss ? 'the Boss' : 'the enemy'} for ${damage} damage!`);
-  if (enemy.hp <= 0) {
-    messages.push(`You have defeated ${enemy.isBoss ? 'the Boss' : 'an enemy'}!`);
-    gainExperience(enemy.xpValue);
-    if (enemy.isBoss) {
-      // Boss drops a special item and upgrades inventory
-      player.maxInventorySize += 2;
-      messages.push('Your inventory capacity has increased by 2!');
-      const specialItem = {
-        x: enemy.x,
-        y: enemy.y,
-        type: 'Boss Trophy',
-        isSpecial: true
-      };
-      items.push(specialItem);
-      tileMap[enemy.y][enemy.x] = SPECIAL_ITEM;
+
+  // Calculate miss chance based on player's Luck
+  const missChance = Math.max(5, 20 - player.luck); // Minimum miss chance of 5%
+  const didMiss = Math.random() * 100 < missChance;
+
+  if (didMiss) {
+    messages.push('You miss!');
+  } else {
+    const damage = Math.max(0, player.attack - 0); // Enemies have no defense in this example
+    enemy.hp -= damage;
+    messages.push(`You hit ${enemy.isBoss ? 'the Boss' : 'the enemy'} for ${damage} damage!`);
+
+    if (enemy.hp <= 0) {
+      messages.push(`You have defeated ${enemy.isBoss ? 'the Boss' : 'an enemy'}!`);
+      gainExperience(enemy.xpValue);
+      if (enemy.isBoss) {
+        // Boss drops a special item and upgrades inventory
+        player.maxInventorySize += 2;
+        messages.push('Your inventory capacity has increased by 2!');
+        const specialItem = {
+          x: enemy.x,
+          y: enemy.y,
+          type: 'Boss Trophy',
+          isSpecial: true
+        };
+        items.push(specialItem);
+        tileMap[enemy.y][enemy.x] = SPECIAL_ITEM;
+      }
+      enemies.splice(enemies.indexOf(enemy), 1);
     }
-    enemies.splice(enemies.indexOf(enemy), 1);
   }
 }
+
+
+
 
 // Gain experience
 function gainExperience(amount) {
@@ -587,9 +614,12 @@ function levelUp() {
   player.xp -= player.xpToLevel;
   player.level++;
   player.skillPoints += 1;
+  player.luck += 1; // Increase Luck by 1 each level
   player.xpToLevel = Math.floor(player.xpToLevel * 1.5); // Increase XP needed for next level
-  messages.push(`You leveled up to level ${player.level}! You have gained 1 skill point.`);
+  messages.push(`You leveled up to level ${player.level}! Luck increased to ${player.luck}. You have gained 1 skill point.`);
 }
+
+
 
 // Apply item effect to player
 function applyItemEffect(item) {
@@ -828,6 +858,7 @@ function startGame(nextLevel) {
       xp: 0,
       xpToLevel: 100,
       skillPoints: 0,
+      luck: 5, // Make sure to include this
       level: 1
     };
     messageHistory.length = 0;
