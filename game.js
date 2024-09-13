@@ -34,6 +34,29 @@ let player = {
 const rooms = [];
 const items = [];
 const enemies = [];
+
+
+function createEnemy() {
+  let baseHealthMultiplier = 0.8;  // Enemies have 80% of player's health on average
+  let baseAttackMultiplier = 1.0;  // Enemies have 100% of player's attack on average
+  let baseDefenseMultiplier = 0.8; // Enemies have 80% of player's defense on average
+  let minAttack = 3;               // Ensure enemies have a minimum attack power
+
+  let enemy = {
+    x: Math.floor(Math.random() * width), // Random position
+    y: Math.floor(Math.random() * height), // Random position
+    hp: Math.floor(player.maxHp * baseHealthMultiplier + (dungeonLevel * 5)), // Health scales with level
+    attack: Math.max(Math.floor(player.attack * baseAttackMultiplier + dungeonLevel + Math.random() * 10), minAttack), // Scaled with level
+    defense: Math.floor(player.defense * baseDefenseMultiplier + dungeonLevel / 2), // Enemy defense scaling
+    symbol: 'E' // ASCII symbol for enemy
+  };
+
+  enemies.push(enemy);
+}
+
+
+
+
 const traps = [];
 const messages = [];
 
@@ -499,23 +522,26 @@ function canSeePlayer(enemy) {
 }
 
 // Enemy attacks player
-// Enemy attacks player
 function attackPlayer(enemy) {
   // Play hit sound
   hitSound.play().catch((error) => {
     console.log('Hit sound playback was prevented:', error);
   });
-  const damage = Math.max(0, enemy.attack - player.defense);
+
+  const minDamage = 2;  // Ensure a minimum damage of 2
+  const rawDamage = enemy.attack - player.defense;
+  const damage = Math.max(rawDamage, minDamage);  // Calculate damage with a minimum threshold
+
   player.hp -= damage;
   messages.push(`${enemy.isBoss ? 'The Boss' : 'An enemy'} hits you for ${damage} damage!`);
+
   if (player.hp <= 0) {
     player.hp = 0; // Ensure HP doesn't go negative
-    messages.push('You have been defeated!');
-    drawMessages(); // Update messages
-    drawStats(); // Update stats
-    gameOver(); // Handle game over
+    gameOver();    // Call the gameOver function to trigger the "You Died" modal
   }
 }
+
+
 
 // Player attacks enemy
 // Player attacks enemy
@@ -976,3 +1002,20 @@ attackSound.play().catch((error) => {
   console.log('Attack sound playback was prevented:', error);
 });
 
+
+
+function progressToNextLevel() {
+  dungeonLevel++;
+  nextlevelSound.play();
+  generateNewDungeon(); // Your existing logic to create a new dungeon layout
+  enemies.length = 0;  // Clear old enemies
+  spawnEnemies();      // Spawn stronger enemies for the next level
+  displayMessage("You've reached dungeon level " + dungeonLevel + "!");
+}
+
+
+function spawnEnemies() {
+  for (let i = 0; i < dungeonLevel * 2; i++) {
+    createEnemy(); // Create stronger, balanced enemies based on level and player stats
+  }
+}
