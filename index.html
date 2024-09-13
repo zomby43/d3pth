@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>d3pth - ASCII Roguelike</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+  <div id="container">
+    <div id="left-panel">
+      <div id="game"></div>
+      <div id="command">
+        Command: <input type="text" id="commandInput" autocomplete="off">
+      </div>
+      <div id="controls">
+        <button class="control-button" id="up-button">↑</button>
+      </div>
+      <div id="controls">
+        <button class="control-button" id="left-button">←</button>
+        <button class="control-button" id="down-button">↓</button>
+        <button class="control-button" id="right-button">→</button>
+      </div>
+      <div id="tips-button">
+        <button id="show-tips">Show Tips</button>
+      </div>
+    </div>
+    <div id="right-panel">
+        <div class="section" id="stats">
+          <h2>Stats</h2>
+          <div class="section-content"></div> <!-- Stats content will be placed here -->
+        </div>
+        <div class="section" id="inventory">
+          <h2>Inventory</h2>
+          <div class="section-content"></div> <!-- Inventory content will be placed here -->
+        </div>
+        <div class="section" id="messages">
+          <h2>Messages</h2>
+          <!-- Add this inside the #right-panel div, preferably below the Messages section -->
+
+          <div class="section-content"></div> <!-- Messages content will be placed here -->
+        </div>
+      </div>   
+  </div>
+
+
+<!-- Modal for Tips -->
+<div id="modal">
+    <div id="modal-content">
+      <span id="close-modal">&times;</span>
+      <img src="img/d3pth.png" style="width: 350px;">
+      <h2>Game Tips and Commands</h2>
+      <p>Welcome to d3pth - simple ASCII Roguelike Game by z0mb0t</p>
+      <h3>Controls:</h3>
+      <ul>
+        <li>Movement: Use the arrow keys, WASD, or on-screen buttons.</li>
+      </ul>
+      <h3>Commands:</h3>
+      <div contenteditable>
+        <ul>
+          <li><strong>drop [slot number]</strong>: Drops the item in the specified inventory slot.</li>
+          <li><strong>use item [slot number]</strong>: Uses the item in the specified inventory slot. (example: some items can be used like "use item 2 up" (or down, left and right))</li>
+          <li><strong>disable trap</strong> or <strong>attack trap</strong>: Disables a trap when standing on it.</li>
+          <li><strong>upgrade [attribute]</strong>: Spend a skill point to upgrade an attribute (health, attack, defense).</li>
+        </ul>
+        <p>For now, you can unrealistically stack items like swords and shields for more attributes! :)</p>
+        <h3>Objective:</h3>
+        <p>Explore the dungeon, defeat <span style="color: red">E</span>nemies by moving in their direction, collect items, avoid or disable traps, and reach the e<span style="color: green">X</span>it to progress to the next level.</p>
+        <h3 style="color: red;">Good Luck!</h3>
+    </div>
+    </div>
+  </div>
+
+<!-- You Died Modal -->
+<div id="you-died-modal" class="modal">
+  <div class="modal-content">
+    <img src="img/DEAD.png" style="width: 400px;">
+  </div>
+</div>
+
+  <script src="game.js"></script>
+<!-- Background Music -->
+<audio id="bgm" loop preload="auto">
+  <source src="sounds/bgm.mp3" type="audio/mpeg">
+  <!-- Fallback content if audio is not supported -->
+  Your browser does not support the audio element.
+</audio>
+
+</body>
+</html>

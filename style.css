@@ -1,0 +1,325 @@
+body {
+    background-color: #000000;
+    color: #f0f0f0;
+    font-family: monospace;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  #container {
+    display: flex;
+    flex: 1;
+  }
+
+  #left-panel {
+    flex: 1;
+    padding: 50px;
+    font-family: monospace;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+
+  #game {
+    flex: 1;
+    white-space: pre;
+    color: #bfbfbf;
+    padding: 10px;
+    background-color: #000000;
+    border-radius: 0px;
+    line-height: 1.2;
+    overflow: auto;
+  }
+
+  #command {
+    padding: 10px;
+    margin-top: 10px;
+  }
+
+  #command input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #555;
+    background-color: #000000;
+    color: #f0f0f0;
+    font-size: 14px;
+  }
+
+  #right-panel {
+    width: 250px;
+    background-color: #000000;
+    padding: 10px;
+    border-left: 1px solid #ffffff;
+    display: flex;
+    flex-direction: column;
+    font-family: monospace;
+  }
+
+  #right-panel h2 {
+    color: #f0f0f0;
+    border-bottom: 1px solid #ffffff;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-family: monospace;
+  }
+
+  .section {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border-radius: 0px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+
+  .section-content {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #d0d0d0;
+  }
+
+  #stats .section-content {
+    color: #1dfc00; /* Cool color for stats */
+  }
+
+  #inventory .section-content {
+    color: #ffd700; /* Yellowish tone for inventory */
+  }
+
+  #messages {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  #messages .section-content {
+    color: #f0f0f0; /* White for messages */
+  }
+
+  #controls {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+  }
+
+  .control-button {
+    background-color: #000000;
+    color: #fff;
+    font-size: 20px;
+    width: 45px;
+    height: 45px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .control-button:hover {
+    background-color: #777;
+  }
+
+  #tips-button {
+    text-align: center;
+    margin-top: 10px;
+;
+  }
+
+  #tips-button button {
+    background-color: #000000;
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 0px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  #tips-button button:hover {
+    background-color: #666;
+  }
+
+  /* Player, enemies, traps, and other game elements */
+.player {
+    color: #ffffff; /* White for the player */
+  }
+  
+  .enemy {
+    color: red; /* Red for enemies */
+  }
+  
+  .boss {
+    color: magenta; /* Magenta for boss */
+  }
+  
+  .item {
+    color: yellow; /* Yellow for items */
+  }
+  
+  .special-item {
+    color: cyan; /* Cyan for special items */
+  }
+  
+  .trap {
+    color: #464646; /* Light gray for traps */
+  }
+  
+  .wall {
+    color: gray; /* Gray for walls */
+  }
+  
+  .floor {
+    color: #f0f0f0; /* Off-white for floor */
+  }
+  
+  .exit {
+    color: green; /* Green for the exit */
+  }
+
+/* Message History Button */
+#message-history-button button {
+  background-color: #444;
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#message-history-button button:hover {
+  background-color: #666;
+}
+
+
+.modal-content h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Message Items */
+.message-item {
+  padding-left: 20px;
+  text-indent: -20px;
+  margin-bottom: 5px;
+}
+
+/* Optional: Add bullet points or markers */
+.message-item::before {
+  content: '• ';
+  color: #76c7c0; /* Adjust the color to match your theme */
+}
+
+
+/* Styles for the stats list */
+.stats-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stats-list li {
+  margin-bottom: 5px;
+  padding-left: 15px;
+  text-indent: -15px;
+}
+
+.stats-list li::before {
+  content: '• ';
+  color: #76c7c0; /* Adjust the color to match your theme */
+}
+
+/* Styles for the inventory list */
+.inventory-list {
+  padding-left: 20px;
+  margin-top: 5px;
+}
+
+.inventory-list li {
+  margin-bottom: 5px;
+}
+
+.inventory-list li::marker {
+  color: #ffd700; /* Yellowish tone for inventory numbers */
+}
+
+/* You Died Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0,0,0,0.8);
+}
+
+.modal-content {
+  background-color: #000000;
+  margin: 15% auto;
+  padding: 30px;
+  border: 1px solid #ffffff;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  color: #f0f0f0;
+  border-radius: 0px;
+  font-family: monospace;
+}
+
+.modal-content h1 {
+  font-size: 48px;
+  margin: 0;
+}
+
+/* Inventory Pagination */
+.inventory-pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.inventory-pagination button {
+  background-color: #444;
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.inventory-pagination button:hover {
+  background-color: #666;
+}
+
+.inventory-pagination button:disabled {
+  background-color: #333;
+  color: #777;
+  cursor: default;
+}
