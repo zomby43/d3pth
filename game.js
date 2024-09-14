@@ -9,6 +9,7 @@ const deadSound = new Audio('sfx/dead.wav');
 const healSound = new Audio('sfx/heal.wav');
 const levelupSound = new Audio('sfx/levelup.wav');
 const upgradeSound = new Audio('sfx/upgrade.wav');
+const bumpSound = new Audio('sfx/bump.wav');
 
 // Background music
 const bgm = document.getElementById('bgm');
@@ -68,7 +69,7 @@ const messages = [];
 
 // Tile types
 const WALL = '▓';
-const FLOOR = '░';
+const FLOOR = '▒';
 const EXIT = 'X';
 const ITEM = '*';
 const SPECIAL_ITEM = '?';
@@ -495,6 +496,9 @@ function movePlayer(dx, dy) {
     }
   } else {
     messages.push('You bump into a wall.');
+    bumpSound.play().catch((error) => {
+      console.log('Pickup sound playback was prevented:', error);
+    });
   }
   
   updateGame();

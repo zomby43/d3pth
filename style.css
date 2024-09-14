@@ -192,7 +192,7 @@ body {
   }
   
   .trap {
-    color: #333333; /* Light gray for traps */
+    color: #2c2c2c; /* Light gray for traps */
   }
   
   .wall {
@@ -200,7 +200,7 @@ body {
   }
   
   .floor {
-    color: #3a3a3a; /* Off-white for floor */
+    color: #2c2c2c; /* Off-white for floor */
   }
   
   .exit {
