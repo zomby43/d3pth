@@ -1,12 +1,20 @@
+@font-face {
+  font-family: 'IBM';
+  font-weight:400;
+  font-style:normal;
+  src: url('IBM.ttf'),
+}
+
 body {
     background-color: #000000;
     color: #f0f0f0;
-    font-family: monospace;
+    font-family: 'IBM';
     margin: 0;
     padding: 0;
     display: flex;
     height: 100vh;
     overflow: hidden;
+    font-size: 16px;
   }
 
   #container {
@@ -22,6 +30,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    font-family: 'IBM';
   }
 
 
@@ -34,62 +43,70 @@ body {
     border-radius: 0px;
     line-height: 1.2;
     overflow: auto;
+    font-size: 16px;
   }
 
   #command {
     padding: 10px;
     margin-top: 10px;
+    font-family: 'IBM';
   }
 
   #command input {
     width: 100%;
     padding: 8px;
-    border-radius: 5px;
+    border-radius: 1px;
     border: 1px solid #555;
     background-color: #000000;
     color: #f0f0f0;
-    font-size: 14px;
+    font-size: 20px;
+    font-family: 'IBM';
   }
 
   #right-panel {
     width: 250px;
     background-color: #000000;
     padding: 10px;
-    border-left: 1px solid #ffffff;
+    border-left: 0px solid #ffffff;
     display: flex;
     flex-direction: column;
-    font-family: monospace;
+    font-family: 'IBM';
   }
 
   #right-panel h2 {
-    color: #f0f0f0;
+    color: #ffff55;
     border-bottom: 1px solid #ffffff;
     padding-bottom: 5px;
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 16px;
     text-transform: uppercase;
-    font-family: monospace;
+    font-family: 'IBM';
+    
+    
   }
 
   .section {
     margin-bottom: 20px;
     padding: 10px;
-    background-color: #1a1a1a;
+    background-color: #292929;
     border-radius: 0px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    font-family: 'IBM';
   }
 
   .section-content {
-    font-size: 14px;
-    line-height: 1.4;
+    line-height: 1;
     color: #d0d0d0;
+    font-size: 16px;
   }
 
   #stats .section-content {
+    font-size: 16px;
     color: #1dfc00; /* Cool color for stats */
   }
 
   #inventory .section-content {
+    font-size: 16px;
     color: #ffd700; /* Yellowish tone for inventory */
   }
 
@@ -98,6 +115,8 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    font-family: 'IBM';
+    font-size: 16px;
   }
 
   #messages .section-content {
@@ -108,6 +127,7 @@ body {
     display: flex;
     justify-content: center;
     padding-top: 10px;
+    font-family: 'IBM';
   }
 
   .control-button {
@@ -121,6 +141,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-family: 'IBM';
   }
 
   .control-button:hover {
@@ -137,11 +158,12 @@ body {
     background-color: #000000;
     color: #fff;
     padding: 8px 16px;
-    font-size: 14px;
-    border: none;
+    font-size: 20px;
+    border: 1px solid;
     border-radius: 0px;
     cursor: pointer;
     transition: background-color 0.2s;
+    font-family: 'IBM';
   }
 
   #tips-button button:hover {
@@ -170,15 +192,15 @@ body {
   }
   
   .trap {
-    color: #464646; /* Light gray for traps */
+    color: #333333; /* Light gray for traps */
   }
   
   .wall {
-    color: gray; /* Gray for walls */
+    color: #00aaaa; /* Gray for walls */
   }
   
   .floor {
-    color: #f0f0f0; /* Off-white for floor */
+    color: #3a3a3a; /* Off-white for floor */
   }
   
   .exit {
@@ -204,6 +226,7 @@ body {
 .modal-content h2 {
   margin-top: 0;
   text-align: center;
+  font-size: 16px;
 }
 
 .close-button {

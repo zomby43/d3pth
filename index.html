@@ -26,17 +26,17 @@
         <button id="show-tips">Show Tips</button>
       </div>
     </div>
-    <div id="right-panel">
+    <div id="right-panel" contenteditable>
         <div class="section" id="stats">
-          <h2>Stats</h2>
+          <h2><span style="color: #cc6600">[</span>Stats<span style="color: #cc6600">]</span></h2>
           <div class="section-content"></div> <!-- Stats content will be placed here -->
         </div>
         <div class="section" id="inventory">
-          <h2>Inventory</h2>
+          <h2><span style="color: #cc6600">[</span>Inventory<span style="color: #cc6600">]</span></h2>
           <div class="section-content"></div> <!-- Inventory content will be placed here -->
         </div>
         <div class="section" id="messages">
-          <h2>Messages</h2>
+          <h2><span style="color: #cc6600">[</span>Messages<span style="color: #cc6600">]</span></h2>
           <!-- Add this inside the #right-panel div, preferably below the Messages section -->
 
           <div class="section-content"></div> <!-- Messages content will be placed here -->
@@ -66,7 +66,7 @@
         </ul>
         <p>For now, you can unrealistically stack items like swords and shields for more attributes! :)</p>
         <h3>Objective:</h3>
-        <p>Explore the dungeon, defeat <span style="color: red">E</span>nemies by moving in their direction, collect items, avoid or disable traps, and reach the e<span style="color: green">X</span>it to progress to the next level.</p>
+        <p>Explore the dungeon, defeat <span style="color: red">☺</span> enemies by moving in their direction, collect items, avoid or disable traps, and reach the e<span style="color: green">X</span>it to progress to the next level.</p>
         <h3 style="color: red;">Good Luck!</h3>
     </div>
     </div>
@@ -82,7 +82,7 @@
   <script src="game.js"></script>
 <!-- Background Music -->
 <audio id="bgm" loop preload="auto">
-  <source src="sounds/bgm.mp3" type="audio/mpeg">
+  <source src="sfx/bgm.mp3" type="audio/mpeg">
   <!-- Fallback content if audio is not supported -->
   Your browser does not support the audio element.
 </audio>

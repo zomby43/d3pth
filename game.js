@@ -6,6 +6,9 @@ const hitSound = new Audio('sfx/hit.wav');
 const pickupSound = new Audio('sfx/item.wav');
 const nextlevelSound = new Audio('sfx/nextlvl.wav');
 const deadSound = new Audio('sfx/dead.wav');
+const healSound = new Audio('sfx/heal.wav');
+const levelupSound = new Audio('sfx/levelup.wav');
+const upgradeSound = new Audio('sfx/upgrade.wav');
 
 // Background music
 const bgm = document.getElementById('bgm');
@@ -51,7 +54,7 @@ function createEnemy() {
     hp: Math.floor(player.maxHp * baseHealthMultiplier + (dungeonLevel * 5)), // Health scales with level
     attack: Math.max(Math.floor(player.attack * baseAttackMultiplier + dungeonLevel + Math.random() * 10), minAttack), // Scaled with level
     defense: Math.floor(player.defense * baseDefenseMultiplier + dungeonLevel / 2), // Enemy defense scaling
-    symbol: 'E' // ASCII symbol for enemy
+    symbol: '☺' // ASCII symbol for enemy
   };
 
   enemies.push(enemy);
@@ -64,8 +67,8 @@ const traps = [];
 const messages = [];
 
 // Tile types
-const WALL = '#';
-const FLOOR = '.';
+const WALL = '▓';
+const FLOOR = '░';
 const EXIT = 'X';
 const ITEM = '*';
 const SPECIAL_ITEM = '?';
@@ -73,7 +76,7 @@ const TRAP = '^';
 
 function startBackgroundMusic() {
   if (bgm.paused) {
-    bgm.volume = 0.5; // Set volume (adjust as needed)
+    bgm.volume = 0.2; // Set volume (adjust as needed)
     bgm.play().catch((error) => {
       console.log('Background music playback was prevented:', error);
     });
@@ -254,7 +257,7 @@ function placeEnemies(numEnemies) {
         hp: 20 + dungeonLevel * 10, // Enemies get stronger each dungeon level
         attack: 5 + dungeonLevel * 2,
         xpValue: 50 + dungeonLevel * 10, // XP given when defeated
-        char: 'E',
+        char: '☺',
         isBoss: false
       });
     } else {
@@ -275,7 +278,7 @@ function placeBoss() {
       hp: 100 + dungeonLevel * 20, // Boss has much higher HP
       attack: 20 + dungeonLevel * 5,
       xpValue: 200 + dungeonLevel * 50,
-      char: 'B',
+      char: '☺',
       isBoss: true
     });
   } else {
@@ -320,7 +323,7 @@ function drawMap() {
       let cssClass = '';
 
       if (x === player.x && y === player.y) {
-        tile = '@';
+        tile = '☻';
         cssClass = 'player';  // Assign player class
       } else if (enemies.some(enemy => enemy.x === x && enemy.y === y)) {
         const enemy = enemies.find(enemy => enemy.x === x && enemy.y === y);
@@ -331,7 +334,7 @@ function drawMap() {
         tile = item.isSpecial ? '?' : '*';
         cssClass = item.isSpecial ? 'special-item' : 'item';  // Assign special item or normal item class
       } else if (isTrapAt(x, y)) {
-        tile = '.';
+        tile = '░';
         cssClass = 'trap';  // Assign trap class
       } else if (tile === WALL) {
         cssClass = 'wall';  // Assign wall class
@@ -616,6 +619,9 @@ function levelUp() {
   player.skillPoints += 1;
   player.luck += 1; // Increase Luck by 1 each level
   player.xpToLevel = Math.floor(player.xpToLevel * 1.5); // Increase XP needed for next level
+  levelupSound.play().catch((error) => {
+    console.log('Hit sound playback was prevented:', error);
+  });
   messages.push(`You leveled up to level ${player.level}! Luck increased to ${player.luck}. You have gained 1 skill point.`);
 }
 
@@ -707,6 +713,9 @@ function useItem(slot, direction) {
     const item = player.inventory[slot - 1];
 
     if (item.type === 'Potion') {
+      healSound.play().catch((error) => {
+        console.log('Hit sound playback was prevented:', error);
+      });
       const healAmount = 50; // Amount of HP restored
       player.hp = Math.min(player.maxHp, player.hp + healAmount);
       messages.push(`You used a Potion and restored ${healAmount} HP!`);
@@ -752,7 +761,7 @@ function useWaterTrapScroll(direction) {
       y: targetY,
       type: 'Water Pool',
       duration: 3, // Lasts for 3 turns
-      damage: 10, // Damage dealt to enemies
+      damage: 30, // Damage dealt to enemies
       disabled: false
     });
     messages.push(`You create a water pool trap to the ${direction}!`);
@@ -929,16 +938,25 @@ function upgradeAttribute(attribute) {
         player.maxHp += 20;
         player.hp += 20;
         player.skillPoints--;
+        upgradeSound.play().catch((error) => {
+          console.log('Hit sound playback was prevented:', error);
+        });
         messages.push('You have increased your maximum health!');
         break;
       case 'attack':
         player.attack += 5;
         player.skillPoints--;
+        upgradeSound.play().catch((error) => {
+          console.log('Hit sound playback was prevented:', error);
+        });
         messages.push('You have increased your attack power!');
         break;
       case 'defense':
         player.defense += 3;
         player.skillPoints--;
+        upgradeSound.play().catch((error) => {
+          console.log('Hit sound playback was prevented:', error);
+        });
         messages.push('You have increased your defense!');
         break;
       default:
